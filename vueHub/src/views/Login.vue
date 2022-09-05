@@ -1,29 +1,31 @@
 <template>
-  <h1>Login</h1>
-  <br />
-  <br />
-  <form
-    @submit="logOnForm($event)"
-    style="display: flex; flex-direction: column"
-  >
-    <h2>E-mail</h2>
-    <input
-      name="email"
-      type="text"
-      placeholder="Digite seu email"
-      v-model="email"
-    />
+  <div>
+    <h1>Login</h1>
     <br />
-    <h2>Senha</h2>
-    <input
-      name="password"
-      type="password"
-      placeholder="Digite a sua senha"
-      v-model="password"
-    />
     <br />
-    <button type="submit">Cadastrar</button>
-  </form>
+    <form
+      @submit="logOnForm($event)"
+      style="display: flex; flex-direction: column"
+    >
+      <h2>E-mail</h2>
+      <input
+        name="email"
+        type="text"
+        placeholder="Digite seu email"
+        v-model="email"
+      />
+      <br />
+      <h2>Senha</h2>
+      <input
+        name="password"
+        type="password"
+        placeholder="Digite a sua senha"
+        v-model="password"
+      />
+      <br />
+      <button type="submit">Login</button>
+    </form>
+  </div>
 </template>
 
 <script>

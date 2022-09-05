@@ -1,71 +1,65 @@
 <template>
-  <h1>Register</h1>
-  <br />
-  <br />
-  <form
-    @submit="submitForm($event)"
-    style="display: flex; flex-direction: column"
-  >
-    <h2>Nome</h2>
-    <input
-      name="name"
-      type="text"
-      placeholder="Digite seu nome"
-      v-model="name"
-    />
+  <div>
+    <h1>Cadastre aqui sua agenda virtual</h1>
     <br />
-    <h2>E-mail</h2>
-    <input
-      name="email"
-      type="text"
-      placeholder="Digite seu email"
-      v-model="email"
-    /><br />
-    <h2>Senha</h2>
-    <input
-      name="password"
-      type="password"
-      placeholder="Digite a sua senha"
-      v-model="password"
-    /><br />
-    <h2>Repita a senha</h2>
-    <input
-      name="passOk"
-      placeholder="Digite novamente sua senha"
-      type="password"
-    /><br />
-    <h2>Fale sobre voce</h2>
-    <input
-      name="bio"
-      type="text"
-      placeholder="Fale sobre voce"
-      v-model="bio"
-    /><br />
-    <h2>Tel</h2>
-    <input
-      name="contact"
-      type="text"
-      placeholder="Opcao de contato"
-      v-model="contact"
-    /><br />
-    <h2>Modulo</h2>
-    <select name="course_module" v-model="course_module">
-      <option selected defaultValue="Primeiro módulo (Introdução ao Frontend)">
-        Primeiro modulo (Introdução ao Frontend)
-      </option>
-      <option value="Segundo módulo (Frontend Avançado)">
-        Segundo modulo (Frontend Avançado)
-      </option>
-      <option value="Terceiro módulo (Introdução ao Backend)">
-        Terceiro modulo (Introdução ao Backend)
-      </option>
-      <option value="Quarto módulo (Introdução ao Backend)">
-        Quarto modulo (Backend Avançado)
-      </option>
-    </select>
     <br />
-    <button type="submit">Cadastrar</button>
-  </form>
+    <form
+      @submit="submitForm($event)"
+      style="display: flex; flex-direction: column"
+    >
+      <h2>Nome</h2>
+      <input
+        name="name"
+        type="text"
+        placeholder="Digite seu nome"
+        v-model="name"
+      />
+      <br />
+      <h2>E-mail</h2>
+      <input
+        name="email"
+        type="text"
+        placeholder="Digite seu email"
+        v-model="email"
+      /><br />
+      <h2>Senha</h2>
+      <input
+        name="password"
+        type="password"
+        placeholder="Digite a sua senha"
+        v-model="password"
+      /><br />
+      <h2>Repita a senha</h2>
+      <input
+        name="passOk"
+        placeholder="Digite novamente sua senha"
+        type="password"
+      /><br />
+      <h2>Fale sobre voce</h2>
+      <input
+        name="bio"
+        type="text"
+        placeholder="Fale sobre voce"
+        v-model="bio"
+      /><br />
+      <h2>Tel</h2>
+      <input
+        name="contact"
+        type="text"
+        placeholder="Opcao de contato"
+        v-model="contact"
+      /><br />
+      <h2>Tipo</h2>
+      <select name="course_module" v-model="course_module">
+        <option selected defaultValue="Agenda pessoal">Agenda pessoal</option>
+        <option value="Agenda de trabalho">Agenda de trabalho</option>
+        <option value="Agenda de estudos">Agenda de estudos</option>
+        <option value="Lazer">Lazer</option>
+      </select>
+      <br />
+      <button type="submit">Cadastrar</button>
+    </form>
+  </div>
 </template>
 
 <script>
