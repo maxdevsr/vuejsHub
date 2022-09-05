@@ -1,7 +1,8 @@
 <template>
-  <div>
-    <h1>Login</h1>
-    <br />
+  <div class="login">
+    <div class="title">
+      <h1>Login</h1>
+    </div>
     <br />
     <form
       @submit="logOnForm($event)"
@@ -23,8 +24,11 @@
         v-model="password"
       />
       <br />
-      <button type="submit">Login</button>
+      <button type="submit" class="btn btn-dark">Login</button>
     </form>
+    <h5 class="link">
+      Não possui conta? Clique <a @click="redirectRegister">aqui</a>
+    </h5>
   </div>
 </template>
 
@@ -40,21 +44,21 @@ export default {
     const email = ref("");
     const password = ref("");
 
-    // const schema = yup.object().shape({
-    //   name: yup.string().required("Campo obrigatorio"),
-    //   email: yup.string().email("Email invalido").required("Campo obrigatorio"),
-    //   password: yup
-    //     .string()
-    //     .min(8, "Minimo 8 digitos")
-    //     .required("Campo obrigatorio"),
-    //   passOk: yup
-    //     .string()
-    //     .oneOf([yup.ref("password")], "Senhas diferentes")
-    //     .required("Campo obrigatorio"),
-    //   bio: yup.string().required("Campo obrigatorio"),
-    //   contact: yup.string().required("Campo obrigatorio"),
-    //   course_module: yup.string(),
-    // });
+    const schema = yup.object().shape({
+      name: yup.string().required("Campo obrigatorio"),
+      email: yup.string().email("Email invalido").required("Campo obrigatorio"),
+      password: yup
+        .string()
+        .min(8, "Minimo 8 digitos")
+        .required("Campo obrigatorio"),
+      passOk: yup
+        .string()
+        .oneOf([yup.ref("password")], "Senhas diferentes")
+        .required("Campo obrigatorio"),
+      bio: yup.string().required("Campo obrigatorio"),
+      contact: yup.string().required("Campo obrigatorio"),
+      course_module: yup.string(),
+    });
 
     function logOnForm(e) {
       e.preventDefault();
@@ -85,11 +89,61 @@ export default {
         .catch((err) => console.log(err));
     }
 
+    const redirectRegister = () => {
+      return router.push("/register");
+    };
+
     return {
       logOnForm,
       email,
       password,
+      redirectRegister,
     };
   },
 };
 </script>
+
+<style scoped>
+.title {
+  display: flex;
+
+  flex-direction: column;
+  align-items: center;
+
+  -webkit-box-shadow: 0px 17px 8px -3px rgba(0, 0, 0, 0.94);
+  box-shadow: 0px 17px 8px -3px rgba(0, 0, 0, 0.94);
+  width: 100%;
+  margin-top: 2px;
+}
+
+.login {
+  -webkit-border-radius: 9px;
+  border-radius: 9px;
+  background: #d1d8ec;
+  -webkit-box-shadow: 21px 21px 55px #54565e, -21px -21px 55px #ffffff;
+  box-shadow: 21px 21px 55px #54565e, -21px -21px 55px #ffffff;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 30rem;
+}
+
+input {
+  -webkit-border-radius: 30px;
+  border-radius: 9px;
+  background: #d1d8ec;
+  -webkit-box-shadow: 5px 5px 12px #54565e, -5px -5px 12px #ffffff;
+  box-shadow: 5px 5px 12px #54565e, -5px -5px 12px #ffffff;
+  width: 16rem;
+  height: 2rem;
+}
+
+.link {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+a {
+  cursor: pointer;
+}
+</style>

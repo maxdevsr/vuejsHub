@@ -1,13 +1,21 @@
 <template>
-  <div>
-    <button @click="sair">SAIR</button>
-    <h1>Bem vindo a sua agenda pessoal {{ userName }} !</h1>
+  <div class="dashboard">
+    <div class="title">
+      <div>
+        <h3>Bem vindo a sua agenda pessoal {{ userName }} !</h3>
+        <h4>Finalidade de sua agenda: {{ course }}</h4>
+      </div>
+      <button class="btn btn-danger" @click="sair">SAIR</button>
+    </div>
 
-    <h2>Finalidade: {{ course }}</h2>
+    <div @click="exibeAdicionar = true" v-if="!exibeAdicionar">
+      <button class="btn btn-dark">Adicionar tarefa</button>
+    </div>
+    <div @click="exibeAdicionar = false" v-else>
+      <button class="btn btn-dark">Fechar</button>
+    </div>
 
-    <div @click="modal" v-if="true">
-      <h4>Adicionar tarefa</h4>
-
+    <div class="paiForm" @click="modal" v-if="exibeAdicionar">
       <form @submit="addTech($event)">
         <h4>Compromisso</h4>
         <input
@@ -25,16 +33,29 @@
           <option value="Quando der">Quando der</option>
         </select>
         <br />
-        <button type="submit">Cadastrar</button>
+        <button
+          class="btn btn-success"
+          style="margin-bottom: 1rem"
+          type="submit"
+        >
+          Cadastrar
+        </button>
       </form>
     </div>
-    <div>
+    <br />
+    <br />
+    <div class="lista">
       <h3>Compromissos</h3>
+      <br />
+      <br />
+      <br />
       <ul>
         <li v-for="techText in techs" :key="techText.id">
           <h5>{{ techText.title }}</h5>
-          <h5>{{ techText.status }}</h5>
-          <button @click="removeTech(techText.id)">Remover</button>
+          <h6>{{ techText.status }}</h6>
+          <button class="btn btn-dark" @click="removeTech(techText.id)">
+            Remover
+          </button>
         </li>
       </ul>
     </div>
@@ -49,6 +70,7 @@ export default {
   setup() {
     const newTech = ref("");
     const status = ref("");
+    const exibeAdicionar = ref(false);
 
     const count = ref(0);
 
@@ -75,6 +97,7 @@ export default {
         .then((res) => {
           console.log(res);
           count.value += 1;
+          exibeAdicionar.value = false;
         })
         .catch((err) => console.log(err));
     };
@@ -132,7 +155,108 @@ export default {
       techs,
       modal,
       removeTech,
+      exibeAdicionar,
     };
   },
 };
 </script>
+
+<style scoped>
+.dashboard {
+  color: #ffffff;
+  -webkit-border-radius: 9px;
+  border-radius: 9px;
+  background: #4d4f51;
+  -webkit-box-shadow: 21px 21px 55px #4d4f51, -21px -21px 55px #ffffff;
+  box-shadow: 21px 21px 55px #4d4f51, -21px -21px 55px #ffffff;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+
+  height: 100vw;
+}
+.title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 99%;
+  padding: 1rem;
+  margin-bottom: 5rem;
+
+  -webkit-box-shadow: 0px 29px 19px 8px rgba(0, 0, 0, 0.94);
+  box-shadow: 0px 29px 19px 8px rgba(0, 0, 0, 0.94);
+}
+
+.paiForm {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  background-color: #4d4f51;
+  border-radius: 8px;
+  width: 30rem;
+  align-items: center;
+
+  -webkit-box-shadow: 0px 29px 19px 8px rgba(0, 0, 0, 0.94);
+  box-shadow: 0px 29px 19px 8px rgba(0, 0, 0, 0.94);
+}
+.lista {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+input {
+  -webkit-border-radius: 30px;
+  border-radius: 9px;
+  background: #d1d8ec;
+  -webkit-box-shadow: 5px 5px 12px #54565e, -5px -5px 12px #ffffff;
+  box-shadow: 5px 5px 12px #54565e, -5px -5px 12px #ffffff;
+  width: 16rem;
+  height: 2rem;
+}
+
+select {
+  -webkit-border-radius: 30px;
+  border-radius: 9px;
+  background: #d1d8ec;
+  -webkit-box-shadow: 5px 5px 12px #54565e, -5px -5px 12px #ffffff;
+  box-shadow: 5px 5px 12px #54565e, -5px -5px 12px #ffffff;
+  width: 16rem;
+  height: 2rem;
+}
+
+ul {
+  width: 80%;
+  -webkit-box-shadow: 0px 29px 19px 8px rgba(0, 0, 0, 0.94);
+  box-shadow: 0px 29px 19px 8px rgba(0, 0, 0, 0.94);
+}
+
+li {
+  display: flex;
+  justify-content: space-between;
+  padding: 18px;
+  margin-bottom: 1rem;
+  background-color: #25282a;
+  border-radius: 8px;
+  height: 4rem rem;
+  -webkit-box-shadow: inset 10px -13px 14px 1px rgba(0, 0, 0, 0.9);
+  box-shadow: inset 10px -13px 14px 1px rgba(0, 0, 0, 0.9);
+}
+
+li h5 {
+  width: 21rem;
+}
+
+li h6 {
+  width: 21rem;
+}
+</style>

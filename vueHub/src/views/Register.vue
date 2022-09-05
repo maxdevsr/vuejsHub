@@ -1,13 +1,15 @@
 <template>
-  <div>
-    <h1>Cadastre aqui sua agenda virtual</h1>
-    <br />
+  <div class="register">
+    <div class="title">
+      <h1>Agenda virtual</h1>
+      <h2>Cadastre aqui</h2>
+    </div>
     <br />
     <form
       @submit="submitForm($event)"
       style="display: flex; flex-direction: column"
     >
-      <h2>Nome</h2>
+      <h3>Nome</h3>
       <input
         name="name"
         type="text"
@@ -15,41 +17,41 @@
         v-model="name"
       />
       <br />
-      <h2>E-mail</h2>
+      <h3>E-mail</h3>
       <input
         name="email"
         type="text"
         placeholder="Digite seu email"
         v-model="email"
       /><br />
-      <h2>Senha</h2>
+      <h3>Senha</h3>
       <input
         name="password"
         type="password"
         placeholder="Digite a sua senha"
         v-model="password"
       /><br />
-      <h2>Repita a senha</h2>
+      <h3>Repita a senha</h3>
       <input
         name="passOk"
         placeholder="Digite novamente sua senha"
         type="password"
       /><br />
-      <h2>Fale sobre voce</h2>
+      <h3>Fale sobre voce</h3>
       <input
         name="bio"
         type="text"
         placeholder="Fale sobre voce"
         v-model="bio"
       /><br />
-      <h2>Tel</h2>
+      <h3>Tel</h3>
       <input
         name="contact"
         type="text"
         placeholder="Opcao de contato"
         v-model="contact"
       /><br />
-      <h2>Tipo</h2>
+      <h3>Tipo</h3>
       <select name="course_module" v-model="course_module">
         <option selected defaultValue="Agenda pessoal">Agenda pessoal</option>
         <option value="Agenda de trabalho">Agenda de trabalho</option>
@@ -57,8 +59,11 @@
         <option value="Lazer">Lazer</option>
       </select>
       <br />
-      <button type="submit">Cadastrar</button>
+      <button type="submit" class="btn btn-dark">Cadastrar</button>
     </form>
+    <h5 class="link">
+      Ja possui login? Clique <a @click="redirectLogin">aqui</a>
+    </h5>
   </div>
 </template>
 
@@ -115,6 +120,10 @@ export default {
         .catch((err) => console.log(err));
     }
 
+    const redirectLogin = () => {
+      return router.push("/login");
+    };
+
     return {
       submitForm,
       name,
@@ -123,7 +132,62 @@ export default {
       bio,
       contact,
       course_module,
+      redirectLogin,
     };
   },
 };
 </script>
+
+<style scoped>
+.title {
+  display: flex;
+
+  flex-direction: column;
+  align-items: center;
+
+  -webkit-box-shadow: 0px 17px 8px -3px rgba(0, 0, 0, 0.94);
+  box-shadow: 0px 17px 8px -3px rgba(0, 0, 0, 0.94);
+  width: 100%;
+  margin-top: 2px;
+}
+.register {
+  -webkit-border-radius: 9px;
+  border-radius: 9px;
+  background: #d1d8ec;
+  -webkit-box-shadow: 21px 21px 55px #54565e, -21px -21px 55px #ffffff;
+  box-shadow: 21px 21px 55px #54565e, -21px -21px 55px #ffffff;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 30rem;
+}
+
+input {
+  -webkit-border-radius: 30px;
+  border-radius: 9px;
+  background: #d1d8ec;
+  -webkit-box-shadow: 5px 5px 12px #54565e, -5px -5px 12px #ffffff;
+  box-shadow: 5px 5px 12px #54565e, -5px -5px 12px #ffffff;
+  width: 16rem;
+  height: 2rem;
+}
+
+select {
+  -webkit-border-radius: 30px;
+  border-radius: 9px;
+  background: #d1d8ec;
+  -webkit-box-shadow: 5px 5px 12px #54565e, -5px -5px 12px #ffffff;
+  box-shadow: 5px 5px 12px #54565e, -5px -5px 12px #ffffff;
+  width: 16rem;
+  height: 2rem;
+}
+
+.link {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+a {
+  cursor: pointer;
+}
+</style>
