@@ -112,11 +112,12 @@ export default {
 
   -webkit-box-shadow: 0px 17px 8px -3px rgba(0, 0, 0, 0.94);
   box-shadow: 0px 17px 8px -3px rgba(0, 0, 0, 0.94);
-  width: 100%;
+  width: 99%;
   margin-top: 2px;
 }
 
 .login {
+  margin-top: 2rem;
   -webkit-border-radius: 9px;
   border-radius: 9px;
   background: #d1d8ec;
@@ -136,6 +137,10 @@ input {
   box-shadow: 5px 5px 12px #54565e, -5px -5px 12px #ffffff;
   width: 16rem;
   height: 2rem;
+  border: none;
+  outline: 0;
+
+  padding: 0.5rem;
 }
 
 .link {

@@ -151,6 +151,7 @@ export default {
   margin-top: 2px;
 }
 .register {
+  margin-top: 2rem;
   -webkit-border-radius: 9px;
   border-radius: 9px;
   background: #d1d8ec;
@@ -170,6 +171,10 @@ input {
   box-shadow: 5px 5px 12px #54565e, -5px -5px 12px #ffffff;
   width: 16rem;
   height: 2rem;
+  padding: 0.5rem;
+
+  border: none;
+  outline: 0;
 }
 
 select {
