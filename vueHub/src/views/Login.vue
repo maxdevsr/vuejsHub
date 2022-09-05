@@ -139,7 +139,6 @@ input {
   height: 2rem;
   border: none;
   outline: 0;
-
   padding: 0.5rem;
 }
 

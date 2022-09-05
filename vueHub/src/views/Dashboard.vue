@@ -203,7 +203,6 @@ form {
   border-radius: 8px;
   width: 30rem;
   align-items: center;
-
   -webkit-box-shadow: 0px 29px 19px 8px rgba(0, 0, 0, 0.94);
   box-shadow: 0px 29px 19px 8px rgba(0, 0, 0, 0.94);
 }
