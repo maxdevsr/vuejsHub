@@ -109,6 +109,7 @@ export default {
         contact: contact.value,
         course_module: course_module.value,
       };
+
       console.log(user);
       api
         .post("/users", user)
