@@ -10,69 +10,76 @@
       </a>
     </div>
     <div class="brand-title">Agenda pessoal</div>
-    <form
+    <Form
       class="inputs"
       @submit="logOnForm($event)"
       :validation-schema="schemaLogin"
     >
       <label>EMAIL</label>
-      <input
+      <Field
         name="email"
         type="email"
         placeholder="Digite seu email"
         v-model="email"
       />
+      <div class="pt-2">
+        <ErrorMessage name="email" class="text-danger" />
+        <span class="text-danger" v-if="msgError">{{ msgError }}</span>
+      </div>
       <label>PASSWORD</label>
-      <input
+      <Field
         name="password"
         type="password"
         placeholder="Digite a sua senha"
         v-model="password"
       />
+      <div class="pt-2">
+        <ErrorMessage name="password" class="text-danger" />
+        <span class="text-danger" v-if="msgError">{{ msgError }}</span>
+      </div>
       <button type="submit">LOGIN</button>
       <button id="registrar" type="button" @click="redirectRegister">
         REGISTRAR
       </button>
-    </form>
+    </Form>
     <a id="footer" href="https://macsonsoares.vercel.app/">MADE BY MACSON</a>
   </div>
 </template>
 
 <script>
-import { ref } from "vue";
+import { ErrorMessage, Field, Form } from "vee-validate";
+import { defineComponent, ref } from "vue";
 import api from "../services/api";
 import * as yup from "yup";
 import { useRouter } from "vue-router";
 import "../assets/main.css";
+import { ElNotification } from "element-plus";
 
-export default {
+export default defineComponent({
   name: "Login",
+  components: {
+    Field,
+    Form,
+    ErrorMessage,
+  },
   setup() {
     const email = ref("");
     const password = ref("");
     const router = useRouter();
+    const msgError = ref("");
 
     const schemaLogin = yup.object().shape({
-      name: yup.string().required("Campo obrigatorio"),
       email: yup.string().email("Email invalido").required("Campo obrigatorio"),
       password: yup
         .string()
         .min(8, "Minimo 8 digitos")
         .required("Campo obrigatorio"),
-      passOk: yup
-        .string()
-        .oneOf([yup.ref("password")], "Senhas diferentes")
-        .required("Campo obrigatorio"),
-      bio: yup.string().required("Campo obrigatorio"),
-      contact: yup.string().required("Campo obrigatorio"),
-      course_module: yup.string(),
     });
 
-    function logOnForm(e) {
-      e.preventDefault();
+    function logOnForm(values) {
       const user = {
-        email: email.value,
-        password: password.value,
+        email: values.email,
+        password: values.password,
       };
       api
         .post("/sessions", user)
@@ -89,11 +96,14 @@ export default {
           );
 
           console.log(localStorage);
-
+          ElNotification.success("Seja bem vindo ao Text to Voice!");
           return router.push("/dashboard");
         })
 
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          console.log(err);
+          ElNotification.error(err);
+        });
     }
 
     const redirectRegister = () => {
@@ -108,7 +118,7 @@ export default {
       redirectRegister,
     };
   },
-};
+});
 </script>
 
 <style scoped>
