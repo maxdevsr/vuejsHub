@@ -5,59 +5,68 @@
         <h3>Bem vindo a sua agenda pessoal {{ userName }} !</h3>
         <h4>Finalidade de sua agenda: {{ course }}</h4>
       </div>
-      <button class="btn btn-danger" @click="sair">SAIR</button>
+      <button class="btn" @click="sair">SAIR</button>
     </div>
+    <div class="vitrine">
+      <div id="modal">
+        <div @click="exibeAdicionar = true" v-if="!exibeAdicionar">
+          <button class="btn btn-dark">Adicionar tarefa</button>
+        </div>
+        <div @click="exibeAdicionar = false" v-else>
+          <button class="btn btn-dark">Fechar</button>
+        </div>
+        <div @click="modal" v-if="exibeAdicionar">
+          <form class="paiForm" @submit="addTech($event)">
+            <div>
+              <h4>Compromisso</h4>
+              <input
+                name="newTech"
+                type="text"
+                placeholder="Diga pra mim"
+                v-model="newTech"
+              />
+            </div>
+            <div>
+              <h4>Tipo</h4>
+              <select name="status" v-model="status">
+                <option defaultValue="Importante">Importante</option>
+                <option value="Muito importante">Muito importante</option>
+                <option value="Tranquilo">Tranquilo</option>
+                <option value="Quando der">Quando der</option>
+              </select>
+            </div>
+            <button
+              class="btn btn-success"
+              style="margin-bottom: 1rem; width: 80%; justify-content: center"
+              type="submit"
+            >
+              Cadastrar
+            </button>
+          </form>
+        </div>
+        <div class="paiForm2" v-else>
+          <h1>bem vindo a sua agenda</h1>
+        </div>
+      </div>
 
-    <div @click="exibeAdicionar = true" v-if="!exibeAdicionar">
-      <button class="btn btn-dark">Adicionar tarefa</button>
-    </div>
-    <div @click="exibeAdicionar = false" v-else>
-      <button class="btn btn-dark">Fechar</button>
-    </div>
-
-    <div class="paiForm" @click="modal" v-if="exibeAdicionar">
-      <form @submit="addTech($event)">
-        <h4>Compromisso</h4>
-        <input
-          name="newTech"
-          type="text"
-          placeholder="Diga pra mim"
-          v-model="newTech"
-        />
-        <br />
-        <h4>Tipo</h4>
-        <select name="status" v-model="status">
-          <option defaultValue="Importante">Importante</option>
-          <option value="Muito importante">Muito importante</option>
-          <option value="Tranquilo">Tranquilo</option>
-          <option value="Quando der">Quando der</option>
-        </select>
-        <br />
-        <button
-          class="btn btn-success"
-          style="margin-bottom: 1rem"
-          type="submit"
-        >
-          Cadastrar
-        </button>
-      </form>
-    </div>
-    <br />
-    <br />
-    <div class="lista">
-      <h3>Compromissos</h3>
-      <br />
-      <br />
-      <br />
-      <ul>
-        <li v-for="techText in techs" :key="techText.id">
-          <h5>{{ techText.title }}</h5>
-          <h6>{{ techText.status }}</h6>
-          <button class="btn btn-dark" @click="removeTech(techText.id)">
-            Remover
-          </button>
-        </li>
-      </ul>
+      <div class="lista">
+        <h3>Tarefas</h3>
+        <ul>
+          <li class="container" v-for="techText in techs" :key="techText.id">
+            <h5>{{ techText.title }}</h5>
+            <h6>{{ techText.status }}</h6>
+            <div>
+              <button
+                id="btnRemove"
+                class="btn btn-dark"
+                @click="removeTech(techText.id)"
+              >
+                Remover
+              </button>
+            </div>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </template>
@@ -164,29 +173,108 @@ export default {
 </script>
 
 <style scoped>
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;900&display=swap");
+
+li {
+  list-style: none;
+}
+
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  padding: 1rem 2rem 2rem 2rem;
+}
 .title {
+  width: 100%;
+  border-radius: 20px;
+  padding: 40px;
+  box-sizing: border-box;
+  background: #ecf0f3;
+  box-shadow: 14px 14px 20px #cbced1, -14px -14px 20px white;
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  width: 99%;
-  padding: 1rem;
-  margin-bottom: 5rem;
+  font-family: poppins;
+  margin-bottom: 2rem;
+}
 
-  -webkit-box-shadow: 0px 29px 19px 8px rgba(0, 0, 0, 0.94);
-  box-shadow: 0px 29px 19px 8px rgba(0, 0, 0, 0.94);
+.vitrine {
+  display: flex;
+  height: 45rem;
+}
+
+#modal {
+  height: 100%;
+  width: 30%;
+  display: flex;
+  padding-top: 1rem;
+  flex-direction: column;
+  border-radius: 20px;
+  align-items: center;
+  box-sizing: border-box;
+  background: #ecf0f3;
+  box-shadow: 14px 14px 20px #cbced1, -14px -14px 20px white;
+  font-family: poppins;
 }
 
 .paiForm {
-  width: 100%;
   display: flex;
   flex-direction: column;
+  justify-content: space-around;
+  width: 30rem;
+  height: 35rem;
+  border-radius: 20px;
+  margin: 2rem 0rem 0rem 0rem;
+  padding: 20px;
+  box-sizing: border-box;
+  background: #ecf0f3;
+  box-shadow: 14px 14px 20px #cbced1, -14px -14px 20px white;
+}
+
+.paiForm2 {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 30rem;
+  height: 35rem;
+  border-radius: 20px;
+  margin: 2rem 0rem 0rem 0rem;
+  padding: 20px;
+  box-sizing: border-box;
+  background: #ecf0f3;
+  box-shadow: inset 14px 14px 20px #cbced1, inset -14px -14px 20px white;
+}
+
+.container div {
+  width: 100%;
+  display: flex;
+  justify-content: end;
+}
+
+.btn {
+  color: white;
+  background: #1da1f2;
+  padding: 1rem;
+  display: flex;
   align-items: center;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: 900;
+  box-shadow: 6px 6px 6px #cbced1, -6px -6px 6px white;
+  transition: 0.5s;
+  border: none;
+}
+
+.btn:hover {
+  box-shadow: none;
 }
 
 form {
   display: flex;
   flex-direction: column;
-  position: absolute;
   background-color: #4d4f51;
   border-radius: 8px;
   width: 30rem;
@@ -195,10 +283,34 @@ form {
   box-shadow: 0px 29px 19px 8px rgba(0, 0, 0, 0.94);
 }
 .lista {
-  width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  background: #ecf0f3;
+  width: 70%;
+  height: 100%;
+  margin-left: 2rem;
+  padding: 10px;
+  padding-left: 20px;
+  font-size: 14px;
+  border-radius: 20px;
+  box-shadow: inset 6px 6px 6px #cbced1, inset -6px -6px 6px white;
+  font-family: poppins;
+}
+
+.btnRemove {
+  display: flex;
+}
+.lista h3 {
+  padding-top: 1rem;
+  display: flex;
+  justify-content: center;
+  text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  font-size: 2.5rem;
+}
+.lista ul {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
 }
 
 input {
@@ -209,6 +321,7 @@ input {
   box-shadow: 5px 5px 12px #54565e, -5px -5px 12px #ffffff;
   width: 16rem;
   height: 2rem;
+  font-family: poppins;
 }
 
 select {
@@ -219,31 +332,39 @@ select {
   box-shadow: 5px 5px 12px #54565e, -5px -5px 12px #ffffff;
   width: 16rem;
   height: 2rem;
+  font-family: poppins;
 }
 
-ul {
-  width: 80%;
-  -webkit-box-shadow: 0px 29px 19px 8px rgba(0, 0, 0, 0.94);
-  box-shadow: 0px 29px 19px 8px rgba(0, 0, 0, 0.94);
-}
-
-li {
-  display: flex;
-  justify-content: space-between;
-  padding: 18px;
-  margin-bottom: 1rem;
-  background-color: #25282a;
-  border-radius: 8px;
-  height: 4rem rem;
-  -webkit-box-shadow: inset 10px -13px 14px 1px rgba(0, 0, 0, 0.9);
-  box-shadow: inset 10px -13px 14px 1px rgba(0, 0, 0, 0.9);
+.container {
+  width: 350px;
+  border-radius: 20px;
+  margin: 1rem;
+  padding: 20px;
+  box-sizing: border-box;
+  background: #ecf0f3;
+  box-shadow: 14px 14px 20px #cbced1, -14px -14px 20px white;
 }
 
 li h5 {
-  width: 21rem;
+  border-radius: 20px;
+  box-sizing: border-box;
+  background: #ecf0f3;
+  box-shadow: inset 14px 14px 20px #cbced1, inset -14px -14px 20px white;
+  padding: 1rem;
+  text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  font-family: poppins;
+  margin-bottom: 1.5rem;
 }
 
 li h6 {
-  width: 21rem;
+  border-radius: 20px;
+  box-sizing: border-box;
+  background: #ecf0f3;
+  box-shadow: inset 14px 14px 20px #cbced1, inset -14px -14px 20px white;
+  padding: 1rem;
+  text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  font-family: poppins;
+  margin-bottom: 1.5rem;
+  text-align: center;
 }
 </style>
