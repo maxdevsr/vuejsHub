@@ -1,11 +1,11 @@
 <template>
-  <div class="dashboard">
+  <div class="dashboard" v-motion-slide-top>
     <div class="title">
       <div>
         <h3>Bem vindo a sua agenda pessoal {{ userName }} !</h3>
         <h6>{{ course }}</h6>
       </div>
-      <button class="btn" @click="sair">SAIR</button>
+      <button class="btnSair" @click="sair">SAIR</button>
     </div>
     <div class="vitrine">
       <div id="modal">
@@ -15,7 +15,12 @@
         <div @click="exibeAdicionar = false" v-else>
           <button class="btn btn-dark">Fechar</button>
         </div>
-        <div id="paipai" @click="modal" v-if="exibeAdicionar">
+        <div
+          id="paipai"
+          @click="modal"
+          v-if="exibeAdicionar"
+          v-motion-slide-top
+        >
           <form class="paiForm" @submit="addTech($event)">
             <div>
               <h4>Compromisso</h4>
@@ -39,12 +44,13 @@
               class="btn btn-success"
               style="margin-bottom: 1rem; width: 80%; justify-content: center"
               type="submit"
+              id="btnCadastrar"
             >
               Cadastrar
             </button>
           </form>
         </div>
-        <div class="paiForm2" v-else>
+        <div class="paiForm2" v-else v-motion-slide-bottom>
           <img
             src="../assets/checklist.gif"
             alt=""
@@ -56,7 +62,12 @@
       <div class="lista">
         <h3>Tarefas</h3>
         <ul>
-          <li class="container" v-for="techText in techs" :key="techText.id">
+          <li
+            class="container"
+            v-for="techText in techs"
+            :key="techText.id"
+            v-motion-slide-top
+          >
             <h5>{{ techText.title }}</h5>
             <h6>{{ techText.status }}</h6>
             <div>
@@ -237,6 +248,11 @@ li {
   background: #ecf0f3;
   box-shadow: 14px 14px 20px #cbced1, -14px -14px 20px white;
 }
+
+.paiForm div {
+  width: 100%;
+}
+
 #paipai {
   width: 80%;
   height: 80%;
@@ -264,6 +280,34 @@ li {
 
 .btn {
   color: white;
+  background: #ce5151;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: 900;
+  box-shadow: 6px 6px 6px #cbced1, -6px -6px 6px white;
+  transition: 0.5s;
+  border: none;
+}
+
+.btnSair {
+  color: white;
+  background: #f10000;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: 900;
+  box-shadow: 6px 6px 6px #cbced1, -6px -6px 6px white;
+  transition: 0.5s;
+  border: none;
+}
+
+#btnCadastrar {
+  color: white;
   background: #1da1f2;
   padding: 1rem;
   display: flex;
@@ -277,6 +321,14 @@ li {
 }
 
 .btn:hover {
+  box-shadow: none;
+}
+
+#btnCadastrar:hover {
+  box-shadow: none;
+}
+
+.btnSair:hover {
   box-shadow: none;
 }
 
@@ -305,6 +357,18 @@ form {
   font-family: poppins;
 }
 
+input {
+  width: 100%;
+  background: #ecf0f3;
+  padding: 10px;
+  padding-left: 20px;
+  height: 50px;
+  font-size: 14px;
+  border-radius: 50px;
+  box-shadow: inset 6px 6px 6px #cbced1, inset -6px -6px 6px white;
+  border: none;
+}
+
 .btnRemove {
   display: flex;
 }
@@ -321,26 +385,16 @@ form {
   width: 100%;
 }
 
-input {
-  -webkit-border-radius: 30px;
-  border-radius: 9px;
-  background: #d1d8ec;
-  -webkit-box-shadow: 5px 5px 12px #54565e, -5px -5px 12px #ffffff;
-  box-shadow: 5px 5px 12px #54565e, -5px -5px 12px #ffffff;
-  width: 16rem;
-  height: 2rem;
-  font-family: poppins;
-}
-
 select {
-  -webkit-border-radius: 30px;
-  border-radius: 9px;
-  background: #d1d8ec;
-  -webkit-box-shadow: 5px 5px 12px #54565e, -5px -5px 12px #ffffff;
-  box-shadow: 5px 5px 12px #54565e, -5px -5px 12px #ffffff;
-  width: 16rem;
-  height: 2rem;
-  font-family: poppins;
+  width: 100%;
+  background: #ecf0f3;
+  padding: 10px;
+  padding-left: 20px;
+  height: 50px;
+  font-size: 14px;
+  border-radius: 50px;
+  box-shadow: inset 6px 6px 6px #cbced1, inset -6px -6px 6px white;
+  border: none;
 }
 
 .container {
@@ -350,14 +404,14 @@ select {
   padding: 20px;
   box-sizing: border-box;
   background: #ecf0f3;
-  box-shadow: 14px 14px 20px #cbced1, -14px -14px 20px white;
+  box-shadow: inset 14px 14px 20px #cbced1, inset -14px -14px 20px white;
 }
 
 li h5 {
   border-radius: 20px;
   box-sizing: border-box;
   background: #ecf0f3;
-  box-shadow: inset 14px 14px 20px #cbced1, inset -14px -14px 20px white;
+  box-shadow: 14px 14px 20px #cbced1, -14px -14px 20px white;
   padding: 1rem;
   text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
   font-family: poppins;
@@ -368,7 +422,7 @@ li h6 {
   border-radius: 20px;
   box-sizing: border-box;
   background: #ecf0f3;
-  box-shadow: inset 14px 14px 20px #cbced1, inset -14px -14px 20px white;
+  box-shadow: 14px 14px 20px #cbced1, -14px -14px 20px white;
   padding: 1rem;
   text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
   font-family: poppins;

@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container" v-motion-slide-left>
     <div class="brand-logo">
       <a
         id="imgClick"
@@ -153,13 +153,13 @@ body {
 
 .container {
   position: relative;
-  width: 350px;
   border-radius: 20px;
   margin-top: 7rem;
   padding: 40px;
   box-sizing: border-box;
   background: #ecf0f3;
   box-shadow: 14px 14px 20px #cbced1, -14px -14px 20px white;
+  width: 35%;
 }
 
 .brand-logo {
@@ -177,6 +177,8 @@ a img {
 }
 
 .brand-title {
+  display: flex;
+  justify-content: center;
   margin-top: 10px;
   font-weight: 900;
   font-size: 1.8rem;
@@ -248,6 +250,16 @@ button {
 
 button:hover {
   box-shadow: none;
+}
+
+.brand-title {
+  margin-top: 10px;
+  font-weight: 900;
+  font-size: 1.8rem;
+  color: #1da1f2;
+  letter-spacing: 1px;
+  font-family: poppins;
+  text-shadow: 4px 0 4px rgba(0, 0, 0, 0.25);
 }
 
 #registrar:hover {
