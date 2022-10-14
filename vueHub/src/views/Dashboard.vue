@@ -64,10 +64,12 @@
 
 <script>
 import { ref, watch } from "vue";
-import router from "../router";
 import api from "../services/api";
+import { useRouter } from "vue-router";
+
 export default {
   setup() {
+    const router = useRouter();
     const newTech = ref("");
     const status = ref("");
     const exibeAdicionar = ref(false);
@@ -162,20 +164,6 @@ export default {
 </script>
 
 <style scoped>
-.dashboard {
-  color: #ffffff;
-  -webkit-border-radius: 9px;
-  border-radius: 9px;
-  background: #4d4f51;
-  -webkit-box-shadow: 21px 21px 55px #4d4f51, -21px -21px 55px #ffffff;
-  box-shadow: 21px 21px 55px #4d4f51, -21px -21px 55px #ffffff;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  width: 100%;
-
-  height: 100vw;
-}
 .title {
   display: flex;
   justify-content: space-between;

@@ -1,69 +1,74 @@
 <template>
-  <div class="register">
-    <div class="title">
-      <h1>Agenda virtual</h1>
-      <h2>Cadastre aqui</h2>
+  <div class="container">
+    <div class="brand-logo">
+      <a
+        id="imgClick"
+        href="https://github.com/maxdevsr/vuejsHub"
+        target="_blank"
+      >
+        <img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" alt="" />
+      </a>
     </div>
-    <br />
+    <div class="brand-title">Agenda pessoal</div>
     <form
+      class="inputs"
       @submit="submitForm($event)"
-      style="display: flex; flex-direction: column"
+      :validation-schema="schemaLogin"
     >
-      <h3>Nome</h3>
+      <label>Nome</label>
       <input
         name="name"
         type="text"
         placeholder="Digite seu nome"
         v-model="name"
       />
-      <br />
-      <h3>E-mail</h3>
+      <label>EMAIL</label>
       <input
         name="email"
-        type="text"
+        type="email"
         placeholder="Digite seu email"
         v-model="email"
-      /><br />
-      <h3>Senha</h3>
+      />
+      <label>SENHA</label>
       <input
         name="password"
         type="password"
         placeholder="Digite a sua senha"
         v-model="password"
-      /><br />
-      <h3>Repita a senha</h3>
+      />
+      <label>REPITA A SENHA</label>
       <input
         name="passOk"
         placeholder="Digite novamente sua senha"
         type="password"
-      /><br />
-      <h3>Fale sobre voce</h3>
+      />
+      <label>FALE SOBRE VOCE</label>
       <input
         name="bio"
         type="text"
         placeholder="Fale sobre voce"
         v-model="bio"
-      /><br />
-      <h3>Tel</h3>
+      />
+      <label>TEL</label>
       <input
         name="contact"
         type="text"
         placeholder="Opcao de contato"
         v-model="contact"
-      /><br />
-      <h3>Tipo</h3>
+      />
+      <label>TIPO DE AGENDA</label>
+
       <select name="course_module" v-model="course_module">
         <option selected defaultValue="Agenda pessoal">Agenda pessoal</option>
         <option value="Agenda de trabalho">Agenda de trabalho</option>
         <option value="Agenda de estudos">Agenda de estudos</option>
         <option value="Lazer">Lazer</option>
       </select>
-      <br />
-      <button type="submit" class="btn btn-dark">Cadastrar</button>
+
+      <button type="submit">REGISTRAR</button>
+      <button id="registrar" type="button" @click="redirectLogin">LOGIN</button>
     </form>
-    <h5 class="link">
-      Ja possui login? Clique <a @click="redirectLogin">aqui</a>
-    </h5>
+    <a id="footer" href="https://macsonsoares.vercel.app/">MADE BY MACSON</a>
   </div>
 </template>
 
@@ -71,7 +76,7 @@
 import { ref } from "vue";
 import api from "../services/api";
 import * as yup from "yup";
-import router from "../router";
+import { useRouter } from "vue-router";
 
 export default {
   name: "Register",
@@ -82,6 +87,7 @@ export default {
     const bio = ref("");
     const contact = ref("");
     const course_module = ref("");
+    const router = useRouter();
 
     // const schema = yup.object().shape({
     //   name: yup.string().required("Campo obrigatorio"),
@@ -140,60 +146,159 @@ export default {
 </script>
 
 <style scoped>
-.title {
-  display: flex;
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;900&display=swap");
 
-  flex-direction: column;
-  align-items: center;
-
-  -webkit-box-shadow: 0px 17px 8px -3px rgba(0, 0, 0, 0.94);
-  box-shadow: 0px 17px 8px -3px rgba(0, 0, 0, 0.94);
-  width: 100%;
-  margin-top: 2px;
+input {
+  caret-color: red;
 }
-.register {
-  margin-top: 2rem;
-  -webkit-border-radius: 9px;
-  border-radius: 9px;
-  background: #d1d8ec;
-  -webkit-box-shadow: 21px 21px 55px #54565e, -21px -21px 55px #ffffff;
-  box-shadow: 21px 21px 55px #54565e, -21px -21px 55px #ffffff;
+
+body {
+  margin: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #ecf0f3;
   display: flex;
   align-items: center;
-  flex-direction: column;
-  width: 30rem;
+  text-align: center;
+  justify-content: center;
+  place-items: center;
+  overflow: hidden;
+  font-family: poppins;
+}
+
+.container {
+  position: relative;
+  width: 350px;
+  border-radius: 20px;
+  margin-top: 7rem;
+  padding: 40px;
+  box-sizing: border-box;
+  background: #ecf0f3;
+  box-shadow: 14px 14px 20px #cbced1, -14px -14px 20px white;
+}
+
+.brand-logo {
+  height: 100px;
+  width: 100px;
+  margin: auto;
+  border-radius: 50%;
+  box-sizing: border-box;
+  box-shadow: 7px 7px 10px #cbced1, -7px -7px 10px white;
+}
+
+a img {
+  width: 100%;
+  cursor: pointer;
+}
+
+.brand-title {
+  margin-top: 10px;
+  font-weight: 900;
+  font-size: 1.8rem;
+  color: #1da1f2;
+  letter-spacing: 1px;
+}
+
+.inputs {
+  text-align: left;
+  margin-top: 30px;
+}
+
+label,
+input,
+button {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: none;
+  outline: none;
+  box-sizing: border-box;
+}
+
+label {
+  margin-bottom: 4px;
+}
+
+label:nth-of-type(2) {
+  margin-top: 12px;
+}
+
+input::placeholder {
+  color: gray;
 }
 
 input {
-  -webkit-border-radius: 30px;
-  border-radius: 9px;
-  background: #d1d8ec;
-  -webkit-box-shadow: 5px 5px 12px #54565e, -5px -5px 12px #ffffff;
-  box-shadow: 5px 5px 12px #54565e, -5px -5px 12px #ffffff;
-  width: 16rem;
-  height: 2rem;
-  padding: 0.5rem;
+  background: #ecf0f3;
+  padding: 10px;
+  padding-left: 20px;
+  height: 50px;
+  font-size: 14px;
+  border-radius: 50px;
+  box-shadow: inset 6px 6px 6px #cbced1, inset -6px -6px 6px white;
+}
 
-  border: none;
-  outline: 0;
+button {
+  color: white;
+  margin-top: 20px;
+  background: #1da1f2;
+  height: 40px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: 900;
+  box-shadow: 6px 6px 6px #cbced1, -6px -6px 6px white;
+  transition: 0.5s;
+}
+
+#registrar {
+  color: black;
+  margin-top: 20px;
+  background: white;
+  height: 40px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: 900;
+  box-shadow: 6px 6px 6px #cbced1, -6px -6px 6px white;
+  transition: 0.5s;
+}
+
+button:hover {
+  box-shadow: none;
+}
+
+#registrar:hover {
+  box-shadow: none;
+}
+
+#footer {
+  position: absolute;
+  font-size: 8px;
+  bottom: 4px;
+  right: 4px;
+  text-decoration: none;
+  color: black;
+  background: yellow;
+  border-radius: 10px;
+  padding: 2px;
+}
+
+h1 {
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
 select {
-  -webkit-border-radius: 30px;
-  border-radius: 9px;
-  background: #d1d8ec;
-  -webkit-box-shadow: 5px 5px 12px #54565e, -5px -5px 12px #ffffff;
-  box-shadow: 5px 5px 12px #54565e, -5px -5px 12px #ffffff;
-  width: 16rem;
-  height: 2rem;
+  width: 100%;
+  background: #ecf0f3;
+  padding: 10px;
+  padding-left: 20px;
+  height: 50px;
+  font-size: 14px;
+  border-radius: 50px;
+  box-shadow: inset 6px 6px 6px #cbced1, inset -6px -6px 6px white;
 }
 
-.link {
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-}
-
-a {
-  cursor: pointer;
+option {
+  border: none;
 }
 </style>
