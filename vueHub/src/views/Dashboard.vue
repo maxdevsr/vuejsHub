@@ -3,7 +3,7 @@
     <div class="title">
       <div>
         <h3>Bem vindo a sua agenda pessoal {{ userName }} !</h3>
-        <h4>Finalidade de sua agenda: {{ course }}</h4>
+        <h6>{{ course }}</h6>
       </div>
       <button class="btn" @click="sair">SAIR</button>
     </div>
@@ -15,7 +15,7 @@
         <div @click="exibeAdicionar = false" v-else>
           <button class="btn btn-dark">Fechar</button>
         </div>
-        <div @click="modal" v-if="exibeAdicionar">
+        <div id="paipai" @click="modal" v-if="exibeAdicionar">
           <form class="paiForm" @submit="addTech($event)">
             <div>
               <h4>Compromisso</h4>
@@ -45,7 +45,11 @@
           </form>
         </div>
         <div class="paiForm2" v-else>
-          <h1>bem vindo a sua agenda</h1>
+          <img
+            src="../assets/checklist.gif"
+            alt=""
+            style="border-radius: 10px; height: 100%"
+          />
         </div>
       </div>
 
@@ -182,8 +186,8 @@ li {
 .dashboard {
   display: flex;
   flex-direction: column;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   padding-left: 2rem;
   padding-right: 2rem;
   padding: 1rem 2rem 2rem 2rem;
@@ -203,7 +207,7 @@ li {
 
 .vitrine {
   display: flex;
-  height: 45rem;
+  height: 70%;
 }
 
 #modal {
@@ -224,8 +228,8 @@ li {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  width: 30rem;
-  height: 35rem;
+  width: 100%;
+  height: 100%;
   border-radius: 20px;
   margin: 2rem 0rem 0rem 0rem;
   padding: 20px;
@@ -233,13 +237,17 @@ li {
   background: #ecf0f3;
   box-shadow: 14px 14px 20px #cbced1, -14px -14px 20px white;
 }
+#paipai {
+  width: 80%;
+  height: 80%;
+}
 
 .paiForm2 {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  width: 30rem;
-  height: 35rem;
+  width: 80%;
+  height: 80%;
   border-radius: 20px;
   margin: 2rem 0rem 0rem 0rem;
   padding: 20px;

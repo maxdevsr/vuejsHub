@@ -42,20 +42,7 @@
         placeholder="Digite novamente sua senha"
         type="password"
       />
-      <label>FALE SOBRE VOCE</label>
-      <input
-        name="bio"
-        type="text"
-        placeholder="Fale sobre voce"
-        v-model="bio"
-      />
-      <label>TEL</label>
-      <input
-        name="contact"
-        type="text"
-        placeholder="Opcao de contato"
-        v-model="contact"
-      />
+
       <label>TIPO DE AGENDA</label>
 
       <select name="course_module" v-model="course_module">
@@ -84,8 +71,8 @@ export default {
     const name = ref("");
     const email = ref("");
     const password = ref("");
-    const bio = ref("");
-    const contact = ref("");
+    const bio = ref("ola mundo");
+    const contact = ref("313131313131");
     const course_module = ref("");
     const router = useRouter();
 
@@ -136,8 +123,6 @@ export default {
       name,
       email,
       password,
-      bio,
-      contact,
       course_module,
       redirectLogin,
     };

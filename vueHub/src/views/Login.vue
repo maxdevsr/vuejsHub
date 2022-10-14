@@ -43,6 +43,7 @@ import { ref } from "vue";
 import api from "../services/api";
 import * as yup from "yup";
 import { useRouter } from "vue-router";
+import "../assets/main.css";
 
 export default {
   name: "Login",
@@ -73,7 +74,6 @@ export default {
         email: email.value,
         password: password.value,
       };
-      console.log(user);
       api
         .post("/sessions", user)
         .then((res) => {
@@ -150,6 +150,7 @@ body {
   border-radius: 50%;
   box-sizing: border-box;
   box-shadow: 7px 7px 10px #cbced1, -7px -7px 10px white;
+  background: white;
 }
 
 a img {
@@ -163,6 +164,7 @@ a img {
   font-size: 1.8rem;
   color: #1da1f2;
   letter-spacing: 1px;
+  font-family: poppins;
 }
 
 .inputs {
