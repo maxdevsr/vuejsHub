@@ -10,108 +10,120 @@
       </a>
     </div>
     <div class="brand-title">Agenda pessoal</div>
-    <form
+    <Form
       class="inputs"
-      @submit="submitForm($event)"
-      :validation-schema="schemaLogin"
+      @submit="submitForm"
+      :validation-schema="schema"
     >
       <label>Nome</label>
-      <input
+      <Field
         name="name"
         type="text"
         placeholder="Digite seu nome"
         v-model="name"
       />
+      <div class="pt-2">
+        <ErrorMessage name="name" class="text-danger" />
+        <span class="text-danger" v-if="msgError">{{ msgError }}</span>
+      </div>
       <label>EMAIL</label>
-      <input
+      <Field
         name="email"
         type="email"
         placeholder="Digite seu email"
         v-model="email"
       />
+      <div class="pt-2">
+        <ErrorMessage name="email" class="text-danger" />
+        <span class="text-danger" v-if="msgError">{{ msgError }}</span>
+      </div>
       <label>SENHA</label>
-      <input
+      <Field
         name="password"
         type="password"
         placeholder="Digite a sua senha"
         v-model="password"
-      />
+      /> <div class="pt-2">
+        <ErrorMessage name="password" class="text-danger" />
+        <span class="text-danger" v-if="msgError">{{ msgError }}</span>
+      </div>
       <label>REPITA A SENHA</label>
-      <input
+      <Field
         name="passOk"
         placeholder="Digite novamente sua senha"
         type="password"
       />
-
-      <label>TIPO DE AGENDA</label>
-
-      <select name="course_module" v-model="course_module">
-        <option selected defaultValue="Agenda pessoal">Agenda pessoal</option>
-        <option value="Agenda de trabalho">Agenda de trabalho</option>
-        <option value="Agenda de estudos">Agenda de estudos</option>
-        <option value="Lazer">Lazer</option>
-      </select>
+      <div class="pt-2">
+        <ErrorMessage name="passOk" class="text-danger" />
+        <span class="text-danger" v-if="msgError">{{ msgError }}</span>
+      </div>
 
       <button type="submit">REGISTRAR</button>
       <button id="registrar" type="button" @click="redirectLogin">LOGIN</button>
-    </form>
-    <a id="footer" href="https://macsonsoares.vercel.app/">MADE BY MACSON</a>
+    </Form>
+    <a id="footer" href="https://macsonsoares.vercel.app/"  target="_blank">MADE BY MACSON</a>
   </div>
 </template>
 
 <script>
-import { ref } from "vue";
 import api from "../services/api";
 import * as yup from "yup";
 import { useRouter } from "vue-router";
+import { ErrorMessage, Field, Form } from "vee-validate";
+import { defineComponent, ref } from "vue";
+import { ElNotification } from 'element-plus'
 
-export default {
-  name: "Register",
+export default defineComponent({
+  name: "Login",
+  components: {
+    Field,
+    Form,
+    ErrorMessage,
+  },
   setup() {
     const name = ref("");
     const email = ref("");
     const password = ref("");
     const bio = ref("ola mundo");
     const contact = ref("313131313131");
-    const course_module = ref("");
+    const course_module = ref("Agenda pessoal");
     const router = useRouter();
+    const msgError = ref("");
 
-    // const schema = yup.object().shape({
-    //   name: yup.string().required("Campo obrigatorio"),
-    //   email: yup.string().email("Email invalido").required("Campo obrigatorio"),
-    //   password: yup
-    //     .string()
-    //     .min(8, "Minimo 8 digitos")
-    //     .required("Campo obrigatorio"),
-    //   passOk: yup
-    //     .string()
-    //     .oneOf([yup.ref("password")], "Senhas diferentes")
-    //     .required("Campo obrigatorio"),
-    //   bio: yup.string().required("Campo obrigatorio"),
-    //   contact: yup.string().required("Campo obrigatorio"),
-    //   course_module: yup.string(),
-    // });
+     const schema = yup.object().shape({
+      name: yup.string().required("Campo obrigatorio"),
+      email: yup.string().email("Email invalido").required("Campo obrigatorio"),
+      password: yup
+      .string()
+             .min(8, "Minimo 8 digitos")
+      .required("Campo obrigatorio"),
+          passOk: yup
+      .string()
+      .oneOf([yup.ref("password")], "Senhas diferentes")
+             .required("Campo obrigatorio")
+     })
 
-    function submitForm(e) {
-      e.preventDefault();
+    function submitForm(values) {
+      console.log(values)
       const user = {
-        name: name.value,
-        email: email.value,
-        password: password.value,
+        name: values.name,
+        email: values.email,
+        password: values.password,
         bio: bio.value,
         contact: contact.value,
         course_module: course_module.value,
       };
-
       console.log(user);
       api
         .post("/users", user)
         .then((res) => {
           console.log(res);
+          ElNotification.success("Seja bem vindo a sua agenda pessoal!");
           return router.push("/login");
         })
 
-        .catch((err) => console.log(err));
+        .catch((err) => ElNotification.error(err), 
+console.log(err));
     }
 
     const redirectLogin = () => {
@@ -125,9 +137,11 @@ export default {
       password,
       course_module,
       redirectLogin,
+      schema,
+      msgError
     };
   },
-};
+});
 </script>
 
 <style scoped>

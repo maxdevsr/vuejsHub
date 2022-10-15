@@ -12,7 +12,7 @@
     <div class="brand-title">Agenda pessoal</div>
     <Form
       class="inputs"
-      @submit="logOnForm($event)"
+      @submit="logOnForm"
       :validation-schema="schemaLogin"
     >
       <label>EMAIL</label>
@@ -42,18 +42,18 @@
         REGISTRAR
       </button>
     </Form>
-    <a id="footer" href="https://macsonsoares.vercel.app/">MADE BY MACSON</a>
+    <a id="footer" href="https://macsonsoares.vercel.app/"  target="_blank">MADE BY MACSON</a>
   </div>
 </template>
 
 <script>
-import { ErrorMessage, Field, Form } from "vee-validate";
-import { defineComponent, ref } from "vue";
 import api from "../services/api";
 import * as yup from "yup";
 import { useRouter } from "vue-router";
 import "../assets/main.css";
 import { ElNotification } from "element-plus";
+import { ErrorMessage, Field, Form } from "vee-validate";
+import { defineComponent, ref } from "vue";
 
 export default defineComponent({
   name: "Login",
@@ -116,6 +116,7 @@ export default defineComponent({
       email,
       password,
       redirectRegister,
+      msgError
     };
   },
 });
