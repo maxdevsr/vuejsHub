@@ -103,7 +103,6 @@ export default defineComponent({
     });
 
     function submitForm(values) {
-      ElNotification.success("entreiaqui");
       const user = {
         name: values.name,
         email: values.email,
