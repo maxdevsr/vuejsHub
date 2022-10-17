@@ -10,11 +10,7 @@
       </a>
     </div>
     <div class="brand-title">Agenda pessoal</div>
-    <Form
-      class="inputs"
-      @submit="logOnForm"
-      :validation-schema="schemaLogin"
-    >
+    <Form class="inputs" @submit="logOnForm" :validation-schema="schemaLogin">
       <label>EMAIL</label>
       <Field
         name="email"
@@ -42,7 +38,9 @@
         REGISTRAR
       </button>
     </Form>
-    <a id="footer" href="https://macsonsoares.vercel.app/"  target="_blank">MADE BY MACSON</a>
+    <a id="footer" href="https://macsonsoares.vercel.app/" target="_blank"
+      >MADE BY MACSON</a
+    >
   </div>
 </template>
 
@@ -84,24 +82,19 @@ export default defineComponent({
       api
         .post("/sessions", user)
         .then((res) => {
-          console.log(res);
-
           const { token } = res.data;
           localStorage.setItem("@atriaToken", JSON.stringify(token));
           localStorage.setItem("@userName", JSON.stringify(res.data.user.name));
           localStorage.setItem("@userId", JSON.stringify(res.data.user.id));
           localStorage.setItem(
-            "@userCourse",
+            "@userTypeAgenda",
             JSON.stringify(res.data.user.course_module)
           );
-
-          console.log(localStorage);
-          ElNotification.success("Seja bem vindo ao Text to Voice!");
+          ElNotification.success("Seja bem vindo a sua agenda pessoal!");
           return router.push("/dashboard");
         })
 
         .catch((err) => {
-          console.log(err);
           ElNotification.error(err);
         });
     }
@@ -116,7 +109,7 @@ export default defineComponent({
       email,
       password,
       redirectRegister,
-      msgError
+      msgError,
     };
   },
 });

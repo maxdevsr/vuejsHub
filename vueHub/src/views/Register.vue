@@ -10,11 +10,7 @@
       </a>
     </div>
     <div class="brand-title">Agenda pessoal</div>
-    <Form
-      class="inputs"
-      @submit="submitForm"
-      :validation-schema="schema"
-    >
+    <Form class="inputs" @submit="submitForm" :validation-schema="schema">
       <label>Nome</label>
       <Field
         name="name"
@@ -43,7 +39,8 @@
         type="password"
         placeholder="Digite a sua senha"
         v-model="password"
-      /> <div class="pt-2">
+      />
+      <div class="pt-2">
         <ErrorMessage name="password" class="text-danger" />
         <span class="text-danger" v-if="msgError">{{ msgError }}</span>
       </div>
@@ -61,7 +58,9 @@
       <button type="submit">REGISTRAR</button>
       <button id="registrar" type="button" @click="redirectLogin">LOGIN</button>
     </Form>
-    <a id="footer" href="https://macsonsoares.vercel.app/"  target="_blank">MADE BY MACSON</a>
+    <a id="footer" href="https://macsonsoares.vercel.app/" target="_blank"
+      >MADE BY MACSON</a
+    >
   </div>
 </template>
 
@@ -71,7 +70,7 @@ import * as yup from "yup";
 import { useRouter } from "vue-router";
 import { ErrorMessage, Field, Form } from "vee-validate";
 import { defineComponent, ref } from "vue";
-import { ElNotification } from 'element-plus'
+import { ElNotification } from "element-plus";
 
 export default defineComponent({
   name: "Login",
@@ -90,21 +89,21 @@ export default defineComponent({
     const router = useRouter();
     const msgError = ref("");
 
-     const schema = yup.object().shape({
+    const schema = yup.object().shape({
       name: yup.string().required("Campo obrigatorio"),
       email: yup.string().email("Email invalido").required("Campo obrigatorio"),
       password: yup
-      .string()
-             .min(8, "Minimo 8 digitos")
-      .required("Campo obrigatorio"),
-          passOk: yup
-      .string()
-      .oneOf([yup.ref("password")], "Senhas diferentes")
-             .required("Campo obrigatorio")
-     })
+        .string()
+        .min(8, "Minimo 8 digitos")
+        .required("Campo obrigatorio"),
+      passOk: yup
+        .string()
+        .oneOf([yup.ref("password")], "Senhas diferentes")
+        .required("Campo obrigatorio"),
+    });
 
     function submitForm(values) {
-      console.log(values)
+      ElNotification.success("entreiaqui");
       const user = {
         name: values.name,
         email: values.email,
@@ -113,17 +112,16 @@ export default defineComponent({
         contact: contact.value,
         course_module: course_module.value,
       };
-      console.log(user);
       api
         .post("/users", user)
         .then((res) => {
-          console.log(res);
-          ElNotification.success("Seja bem vindo a sua agenda pessoal!");
+          ElNotification.success("Conta criada com sucesso!");
           return router.push("/login");
         })
 
-        .catch((err) => ElNotification.error(err), 
-console.log(err));
+        .catch((err) => {
+          ElNotification.error(err);
+        });
     }
 
     const redirectLogin = () => {
@@ -138,7 +136,7 @@ console.log(err));
       course_module,
       redirectLogin,
       schema,
-      msgError
+      msgError,
     };
   },
 });

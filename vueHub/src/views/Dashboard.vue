@@ -2,8 +2,16 @@
   <div class="dashboard" v-motion-slide-top>
     <div class="title">
       <div>
-        <h3>Bem vindo a sua agenda pessoal {{ userName }} !</h3>
-        <h6>{{ course }}</h6>
+        <h3>
+          Bem vindo a sua agenda pessoal
+          {{
+            userName.replace(/(^\w{1})|(\s+\w{1})/g, (letra) =>
+              letra.toUpperCase()
+            )
+          }}
+          !
+        </h3>
+        <h6>{{ tipoAgenda }}</h6>
       </div>
       <button class="btnSair" @click="sair">SAIR</button>
     </div>
@@ -21,14 +29,14 @@
           v-if="exibeAdicionar"
           v-motion-slide-top
         >
-          <form class="paiForm" @submit="addTech($event)">
+          <form class="paiForm" @submit="addTarefa($event)">
             <div>
               <h4>Compromisso</h4>
               <input
-                name="newTech"
+                name="novaTarefa"
                 type="text"
                 placeholder="Diga pra mim"
-                v-model="newTech"
+                v-model="novaTarefa"
               />
             </div>
             <div>
@@ -51,11 +59,15 @@
           </form>
         </div>
         <div class="paiForm2" v-else v-motion-slide-bottom>
-          <img
-            src="../assets/checklist.gif"
-            alt=""
-            style="border-radius: 10px; height: 100%"
-          />
+          <h4>
+            {{ liveText }}
+          </h4>
+          <a
+            href="https://github.com/maxdevsr/vuejsHub"
+            target="_blank"
+            class="text-center"
+            >GitHub</a
+          >
         </div>
       </div>
 
@@ -64,7 +76,7 @@
         <ul>
           <li
             class="container"
-            v-for="techText in techs"
+            v-for="techText in tarefasUser"
             :key="techText.id"
             v-motion-slide-top
           >
@@ -74,7 +86,7 @@
               <button
                 id="btnRemove"
                 class="btn btn-dark"
-                @click="removeTech(techText.id)"
+                @click="removeTarefa(techText.id)"
               >
                 Remover
               </button>
@@ -94,34 +106,53 @@ import { useRouter } from "vue-router";
 export default {
   setup() {
     const router = useRouter();
-    const newTech = ref("");
+    const novaTarefa = ref("");
     const status = ref("");
     const exibeAdicionar = ref(false);
 
     const count = ref(0);
 
-    const techs = ref([]);
+    const tarefasUser = ref([]);
+
+    const liveText = ref("");
+    const meuTexto = `Bem vindo a sua agenda pessoal, coloque aqui suas tarefas e volte para consulta-las quando quiser! 
+    Visite o codigo no link abaixo`;
+    const interval = 200;
+
+    function showTextLive(liveText, meuTexto, interval) {
+      console.log("oi");
+      const character = meuTexto.split("").reverse();
+
+      const typer = setInterval(function () {
+        if (!character.length) {
+          return clearInterval(typer);
+        }
+        const nextChar = character.pop();
+        liveText.value += nextChar;
+      }, interval);
+    }
+
+    showTextLive(liveText, meuTexto, interval);
 
     const userName = JSON.parse(localStorage.getItem("@userName"));
-    const course = JSON.parse(localStorage.getItem("@userCourse"));
+    const tipoAgenda = JSON.parse(localStorage.getItem("@userTypeAgenda"));
     const ID = JSON.parse(localStorage.getItem("@userId"));
     const bearer = JSON.parse(localStorage.getItem("@atriaToken"));
 
-    const addTech = (e) => {
+    const addTarefa = (e) => {
       e.preventDefault();
-      const techAdd = {
-        title: newTech.value,
+      const tarefaAtual = {
+        title: novaTarefa.value,
         status: status.value,
       };
-      console.log(techAdd);
+      console.log(tarefaAtual);
       api
-        .post("/users/techs", techAdd, {
+        .post("/users/techs", tarefaAtual, {
           headers: {
             Authorization: `Bearer ${bearer}`,
           },
         })
         .then((res) => {
-          console.log(res);
           count.value += 1;
           exibeAdicionar.value = false;
         })
@@ -130,7 +161,6 @@ export default {
 
     watch(count, () => {
       getUser();
-      console.log("entrou aqui");
     });
 
     function getUser() {
@@ -141,14 +171,12 @@ export default {
           },
         })
         .then((res) => {
-          console.log(res);
-          techs.value = res.data.techs;
-          console.log(techs.value);
+          tarefasUser.value = res.data.techs;
         });
     }
     getUser();
 
-    function removeTech(id) {
+    function removeTarefa(id) {
       api
         .delete(`/users/techs/${id}`, {
           headers: {
@@ -156,7 +184,6 @@ export default {
           },
         })
         .then((res) => {
-          console.log(res);
           count.value += 1;
         });
     }
@@ -173,15 +200,16 @@ export default {
     return {
       sair,
       userName,
-      course,
+      tipoAgenda,
       getUser,
-      addTech,
-      newTech,
+      addTarefa,
+      novaTarefa,
       status,
-      techs,
+      tarefasUser,
       modal,
-      removeTech,
+      removeTarefa,
       exibeAdicionar,
+      liveText,
     };
   },
 };
