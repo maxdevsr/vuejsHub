@@ -383,6 +383,7 @@ form {
   border-radius: 20px;
   box-shadow: inset 6px 6px 6px #cbced1, inset -6px -6px 6px white;
   font-family: poppins;
+  overflow: auto;
 }
 
 input {
