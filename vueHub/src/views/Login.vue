@@ -74,33 +74,32 @@ export default defineComponent({
         .required("Campo obrigatorio"),
     });
 
-    function logOnForm(values) {
+    async function logOnForm(values) {
       const user = {
         email: values.email,
         password: values.password,
       };
-      api
-        .post("/sessions", user)
-        .then((res) => {
-          const { token } = res.data;
-          localStorage.setItem("@atriaToken", JSON.stringify(token));
-          localStorage.setItem("@userName", JSON.stringify(res.data.user.name));
-          localStorage.setItem("@userId", JSON.stringify(res.data.user.id));
-          localStorage.setItem(
-            "@userTypeAgenda",
-            JSON.stringify(res.data.user.course_module)
-          );
-          ElNotification.success("Seja bem vindo a sua agenda pessoal!");
-          return router.push("/dashboard");
-        })
+      try {
+        const logged = await api.post("/sessions", user);
+        console.log(logged);
 
-        .catch((err) => {
-          ElNotification.error(err);
-        });
+        localStorage.setItem("@atriaToken", JSON.stringify(logged.data.token));
+        localStorage.setItem("@userId", JSON.stringify(logged.data.user.id));
+
+        ElNotification.success("Seja bem vindo a sua agenda pessoal!");
+        redirectDashboard();
+      } catch (error) {
+        ElNotification.error(error);
+      }
     }
 
     const redirectRegister = () => {
       return router.push("/register");
+    };
+
+    const redirectDashboard = () => {
+      console.log("oi");
+      return router.push("/dashboard");
     };
 
     return {

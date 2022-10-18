@@ -99,20 +99,44 @@
 </template>
 
 <script>
-import { ref, watch } from "vue";
+import { onMounted, ref, watch } from "vue";
 import api from "../services/api";
 import { useRouter } from "vue-router";
 
 export default {
   setup() {
+    onMounted(() => {
+      getUser();
+    });
+
     const router = useRouter();
     const novaTarefa = ref("");
     const status = ref("");
     const exibeAdicionar = ref(false);
-
+    const ID = JSON.parse(localStorage.getItem("@userId"));
+    const bearer = JSON.parse(localStorage.getItem("@atriaToken"));
     const count = ref(0);
 
+    const userName = ref("");
+    const tipoAgenda = ref("");
+
     const tarefasUser = ref([]);
+
+    async function getUser() {
+      try {
+        const meusDados = await api.get(`/users/${ID}`, {
+          headers: {
+            Authorization: `Bearer ${bearer}`,
+          },
+        });
+        tarefasUser.value = meusDados.data.techs;
+        userName.value = meusDados.data.name;
+        tipoAgenda.value = meusDados.data.course_module;
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    getUser();
 
     const liveText = ref("");
     const meuTexto = `Bem vindo a sua agenda pessoal, coloque aqui suas tarefas e volte para consulta-las quando quiser! 
@@ -133,11 +157,6 @@ export default {
     }
 
     showTextLive(liveText, meuTexto, interval);
-
-    const userName = JSON.parse(localStorage.getItem("@userName"));
-    const tipoAgenda = JSON.parse(localStorage.getItem("@userTypeAgenda"));
-    const ID = JSON.parse(localStorage.getItem("@userId"));
-    const bearer = JSON.parse(localStorage.getItem("@atriaToken"));
 
     const addTarefa = (e) => {
       e.preventDefault();
@@ -162,19 +181,6 @@ export default {
     watch(count, () => {
       getUser();
     });
-
-    function getUser() {
-      api
-        .get(`/users/${ID}`, {
-          headers: {
-            Authorization: `Bearer ${bearer}`,
-          },
-        })
-        .then((res) => {
-          tarefasUser.value = res.data.techs;
-        });
-    }
-    getUser();
 
     function removeTarefa(id) {
       api

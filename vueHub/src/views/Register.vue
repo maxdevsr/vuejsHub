@@ -115,7 +115,7 @@ export default defineComponent({
         .post("/users", user)
         .then((res) => {
           ElNotification.success("Conta criada com sucesso!");
-          return router.push("/login");
+          router.push("/login");
         })
 
         .catch((err) => {
