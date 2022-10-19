@@ -1,7 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
-const token = JSON.parse(localStorage.getItem("@atriaToken"));
-
 const router = createRouter({
   history: createWebHistory(),
   routes: [
@@ -18,7 +16,7 @@ const router = createRouter({
     {
       path: '/dashboard',
       name: 'Dashboard',
-      component: token ? () => import('../views/Dashboard.vue') : () => router.push("/login")
+      component: () => import('../views/Dashboard.vue')
     },
 {
     path: '/:pathMatch(.*)*',

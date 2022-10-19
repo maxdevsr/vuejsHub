@@ -79,15 +79,14 @@ export default defineComponent({
         email: values.email,
         password: values.password,
       };
+      const logged = await api.post("/sessions", user);
+      console.log(logged);
+
+      localStorage.setItem("@atriaToken", JSON.stringify(logged.data.token));
+      localStorage.setItem("@userId", JSON.stringify(logged.data.user.id));
       try {
-        const logged = await api.post("/sessions", user);
-        console.log(logged);
-
-        localStorage.setItem("@atriaToken", JSON.stringify(logged.data.token));
-        localStorage.setItem("@userId", JSON.stringify(logged.data.user.id));
-
+        router.push("/dashboard");
         ElNotification.success("Seja bem vindo a sua agenda pessoal!");
-        redirectDashboard();
       } catch (error) {
         ElNotification.error(error);
       }
