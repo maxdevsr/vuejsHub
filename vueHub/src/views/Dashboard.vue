@@ -17,10 +17,14 @@
     </div>
     <div class="vitrine">
       <div id="modal">
-        <div @click="exibeAdicionar = true" v-if="!exibeAdicionar">
+        <div
+          v-motion-slide-left
+          @click="exibeAdicionar = true"
+          v-if="!exibeAdicionar"
+        >
           <button class="btn btn-dark">Adicionar tarefa</button>
         </div>
-        <div @click="exibeAdicionar = false" v-else>
+        <div v-motion-slide-right @click="exibeAdicionar = false" v-else>
           <button class="btn btn-dark">Fechar</button>
         </div>
         <div
@@ -42,10 +46,10 @@
             <div>
               <h4>Tipo</h4>
               <select name="status" v-model="status">
-                <option defaultValue="Importante">Importante</option>
-                <option value="Muito importante">Muito importante</option>
-                <option value="Tranquilo">Tranquilo</option>
-                <option value="Quando der">Quando der</option>
+                <option defaultValue="Estudo">Estudo</option>
+                <option value="Lazer">Lazer</option>
+                <option value="Trabalho">Trabalho</option>
+                <option value="Outros">Outros</option>
               </select>
             </div>
             <button
@@ -54,7 +58,7 @@
               type="submit"
               id="btnCadastrar"
             >
-              Cadastrar
+              Salvar
             </button>
           </form>
         </div>
@@ -72,11 +76,54 @@
       </div>
 
       <div class="lista">
-        <h3>Tarefas</h3>
+        <ul class="btn-group" role="group" id="buttonFIlter">
+          <li
+            class="btn btn-secondary"
+            id="btnfilter"
+            @click="filter('Estudo')"
+            tabindex="0"
+            style="border-radius: 10px 0px 0px 10px"
+          >
+            Estudo
+          </li>
+          <li
+            class="btn btn-secondary"
+            id="btnfilter"
+            @click="filter('Lazer')"
+            tabindex="0"
+          >
+            Lazer
+          </li>
+          <li
+            class="btn btn-secondary"
+            id="btnfilter"
+            @click="filter('Trabalho')"
+            tabindex="0"
+          >
+            Trabalho
+          </li>
+          <li
+            class="btn btn-secondary"
+            id="btnfilter"
+            @click="filter('Outros')"
+            tabindex="0"
+          >
+            Outros
+          </li>
+          <li
+            class="btn btn-secondary"
+            id="btnfilter"
+            @click="filter()"
+            tabindex="0"
+            style="border-radius: 0px 10px 10px 0px"
+          >
+            Todos
+          </li>
+        </ul>
         <ul>
           <li
             class="container"
-            v-for="techText in tarefasUser"
+            v-for="techText in tarefasUserFiltered"
             :key="techText.id"
             v-motion-slide-top
           >
@@ -121,6 +168,7 @@ export default {
     const tipoAgenda = ref("");
 
     const tarefasUser = ref([]);
+    const tarefasUserFiltered = ref([]);
 
     async function getUser() {
       try {
@@ -132,19 +180,31 @@ export default {
         tarefasUser.value = meusDados.data.techs;
         userName.value = meusDados.data.name;
         tipoAgenda.value = meusDados.data.course_module;
+        filter();
       } catch (error) {
         console.log(error);
       }
     }
     getUser();
 
+    const filter = (status) => {
+      if (status) {
+        tarefasUserFiltered.value = tarefasUser.value.filter(
+          (elem) => elem.status === status
+        );
+      } else {
+        tarefasUserFiltered.value = tarefasUser.value;
+      }
+
+      console.log(tarefasUserFiltered.value, status);
+    };
+
     const liveText = ref("");
-    const meuTexto = `Bem vindo a sua agenda pessoal, coloque aqui suas tarefas e volte para consulta-las quando quiser! 
+    const meuTexto = `Bem vindo a sua agenda pessoal, coloque aqui suas tarefas e volte para consulta-las quando quiser!
     Visite o codigo no link abaixo`;
     const interval = 200;
 
     function showTextLive(liveText, meuTexto, interval) {
-      console.log("oi");
       const character = meuTexto.split("").reverse();
 
       const typer = setInterval(function () {
@@ -216,6 +276,8 @@ export default {
       removeTarefa,
       exibeAdicionar,
       liveText,
+      filter,
+      tarefasUserFiltered,
     };
   },
 };
@@ -295,7 +357,8 @@ li {
 .paiForm2 {
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: space-between;
+  align-items: center;
   width: 80%;
   height: 80%;
   border-radius: 20px;
@@ -463,5 +526,28 @@ li h6 {
   font-family: poppins;
   margin-bottom: 1.5rem;
   text-align: center;
+}
+
+#buttonFIlter {
+  border-radius: 20px;
+  padding: 20px;
+  box-sizing: border-box;
+  background: #ecf0f3;
+  box-shadow: 14px 14px 20px #cbced1, -14px -14px 20px white;
+}
+
+#btnfilter {
+  display: flex;
+  justify-content: center;
+  background: gray;
+  cursor: pointer;
+  font-size: 13px;
+  border-radius: 0.5px;
+  width: 20%;
+  box-shadow: none;
+}
+
+#btnfilter:focus {
+  background: blue;
 }
 </style>
